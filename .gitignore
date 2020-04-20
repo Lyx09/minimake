@@ -1,3 +1,9 @@
 *.o
+*.~
+*.swp
+*.a
+*.so
+*.log
+*.core
 a.out
 minimake
