@@ -5,7 +5,7 @@ CC=gcc
 all: minimake
 
 minimake: ${SRC}
-	gcc -Wall -Werror -Wextra -pedantic -std=c99 $^
+	gcc -Wall -Werror -Wextra -pedantic -std=c99 $^ -o minimake
 
 check:
 	./test/test.sh
