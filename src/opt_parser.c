@@ -16,9 +16,9 @@ void usage_message(char* binname)
     return;
 }
 
-char* opt_parse(int argc, char* argv[])
+struct options opt_parse(int argc, char* argv[])
 {
-    char* filename;
+    char* filename = NULL;
 
     // TODO: -f is also equal to longopt --file or --makefile
     // same for --help
@@ -42,13 +42,8 @@ char* opt_parse(int argc, char* argv[])
         }
     }
 
-    // targets to execute
-    while (optind < argc)
-    {
-        optind++;
-    }
-
+    int nonopts = optind;
     optind = 1; // Reset optind for later parsing
-    return filename;
+    return (struct options){filename, nonopts};
 }
 

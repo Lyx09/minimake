@@ -8,7 +8,13 @@
 
 int main(int argc, char* argv[])
 {
-    opt_parse(argc, argv);
+    struct options opts = opt_parse(argc, argv);
+    printf("%s\n", opts.filename);
+    for (; opts.nonopts < argc; opts.nonopts++)
+    {
+        printf("%s\n", argv[opts.nonopts]);
+    }
+
 
     return 0;
 }
