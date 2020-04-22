@@ -3,10 +3,6 @@
 
 #include <stddef.h>
 
-/*
-** index is an index in a node array
-*/
-
 struct vector{
     size_t size, capacity;
     void **arr;
