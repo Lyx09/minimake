@@ -5,6 +5,7 @@
 #include <getopt.h>
 
 #include "opt_parser.h"
+#include "common.h"
 
 void usage_message(char* binname)
 {
@@ -12,6 +13,7 @@ void usage_message(char* binname)
     fprintf(stderr, "Options:\n");
     fprintf(stderr, "  -f FILE             Read FILE as a makefile.\n");
     fprintf(stderr, "  -h                  Print this message and exit.\n");
+    fprintf(stderr, "  -p                  Pretty print.\n");
 
     return;
 }
@@ -19,18 +21,22 @@ void usage_message(char* binname)
 struct options opt_parse(int argc, char* argv[])
 {
     char* filename = NULL;
+    int flags = 0;
 
     // TODO: -f is also equal to longopt --file or --makefile
     // same for --help
 
     char opt;
-    while ((opt = getopt(argc, argv, "hf:")) != -1)
+    while ((opt = getopt(argc, argv, "phf:")) != -1)
     {
         switch (opt)
         {
+            case 'p':
+                flags |= FLAG_PRETTY_PRINT;
+                break;
             case 'h':
                 usage_message(argv[0]);
-                exit(EXIT_SUCCESS);
+                exit(RC_SUCCESS);
                 break;
             case 'f':
                 // only the last one counts
@@ -38,12 +44,12 @@ struct options opt_parse(int argc, char* argv[])
                 break;
             default:  // '?'
                 usage_message(argv[0]);
-                exit(2);
+                exit(RC_ERROR);
         }
     }
 
     int nonopts = optind;
     optind = 1; // Reset optind for later parsing
-    return (struct options){filename, nonopts};
+    return (struct options){filename, nonopts, flags};
 }
 
