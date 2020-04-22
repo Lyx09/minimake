@@ -27,7 +27,7 @@ void vector_destroy(struct vector *v)
     free(v);
 }
 
-int vector_append(struct vector *v, void *elt)
+int vector_append(struct vector *v, vtype elt)
 {
     if (v->size >= v->capacity)
     {
@@ -41,7 +41,7 @@ int vector_append(struct vector *v, void *elt)
 
 static int vector_double_capacity(struct vector *v)
 {
-    void **tmp = realloc(v->arr, v->capacity * 2 * sizeof(void *));
+    vtype *tmp = realloc(v->arr, v->capacity * 2 * sizeof(vtype ));
     if (!tmp)
         return -1;
     v->arr = tmp;
@@ -49,7 +49,7 @@ static int vector_double_capacity(struct vector *v)
     return 1;
 }
 
-void *vector_get(struct vector *v, size_t pos)
+vtype vector_get(struct vector *v, size_t pos)
 {
     if (v->size <= 0)
         return NULL;
@@ -58,19 +58,19 @@ void *vector_get(struct vector *v, size_t pos)
     return v->arr[pos];
 }
 
-void *vector_peek_head(struct vector *v)
+vtype vector_peek_head(struct vector *v)
 {
     return vector_get(v, 0);
 }
 
-void *vector_peek_tail(struct vector *v)
+vtype vector_peek_tail(struct vector *v)
 {
     return vector_get(v, v->size - 1);
 }
 
-void *vector_pop_tail(struct vector *v)
+vtype vector_pop_tail(struct vector *v)
 {
-    void *ret = vector_peek_tail(v);
+    vtype ret = vector_peek_tail(v);
     if (ret == NULL)
         return NULL;
     v->size -= 1;
@@ -82,7 +82,7 @@ int vector_isempty(struct vector *v)
     return (v->size == 0);
 }
 
-int vector_is_in(struct vector *v, void *elt)
+int vector_is_in(struct vector *v, vtype elt)
 {
     for (size_t i = 0; i < v->size; i++)
     {
@@ -92,9 +92,9 @@ int vector_is_in(struct vector *v, void *elt)
     return 0;
 }
 
-static void swap(void **a, void **b)
+static void swap(vtype *a, vtype *b)
 {
-    void *tmp = *a;
+    vtype tmp = *a;
     *a = *b;
     *b = tmp;
 }
