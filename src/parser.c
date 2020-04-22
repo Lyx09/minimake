@@ -16,7 +16,7 @@
 int line_type(char* line)
 {
     int is_empty = TRUE;
-    for (int i = 0; line[i] || line[i] == '#'; i++)
+    for (int i = 0; !line[i] || line[i] == '#'; i++)
     {
         if (line[i] == ':')
             return LINE_TARGET_DEF;
@@ -44,29 +44,37 @@ static int parse_target_def(FILE *makefile, struct vector* targets)
 
     char* line = NULL;
     size_t len = 0;
-    
-    while (getline(&line, &len, makefile) != -1)
+    int line_nb = 0;
+
+    for (ssize_t nb_bytes = 0;
+            (nb_bytes = getline(&line, &len, makefile)) != -1;
+            line_nb++)
     {
         if (line[0] != '\t')
+        {
+            fseek(makefile, -nb_bytes, SEEK_CUR); // I didn't see this line
+            line_nb--;
             break;
-        printf("%s\n", line);
+        }
     }
 
-    return 1;
+    return line_nb;
 }
 
 int parse(const char* filename, struct vector* targets, struct vector* vars)
 {
     (void) targets;
     (void) vars;
-
     FILE *makefile = fopen(filename, "r");
+
     char* line = NULL;
     size_t len = 0;
+    int line_nb = 1;
 
-    for (int line_nb = 1; getline(&line, &len, makefile) != -1; line_nb++)
-    {
-        printf("%s\n", line);
+    for (ssize_t nb_bytes = 0; 
+            (nb_bytes = getline(&line, &len, makefile)) != -1;
+            line_nb++)
+    { 
         switch (line_type(line))
         {
             case LINE_EMPTY:
@@ -76,7 +84,7 @@ int parse(const char* filename, struct vector* targets, struct vector* vars)
                 parse_var_def(line, vars);
                 break;
             case LINE_TARGET_DEF:
-                parse_target_def(makefile, targets);
+                line_nb += parse_target_def(makefile, targets);
                 break;
             case LINE_OTHER:
                 fprintf(stderr, "%s:%d: *** missing separator.  Stop.\n",
