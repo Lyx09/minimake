@@ -1,22 +1,25 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-// I use chained list but I could've used simple arrays
-struct target_list
+#include "vector.h"
+
+struct target
 {
-    char* name;
-    char* dependencies;
-    char* commands;
-    struct target_list* next;
+    char* line;
+    size_t name;         // index in line
+    struct vector dependencies; // strings
+    struct vector commands;     // char*
 };
 
-struct var_list
+struct var
 {
-    char* name;
-    char* value;
-    struct var_list* next;
+    char* line;
+    size_t name;         // index in line
+    size_t value;        // index in line
 };
 
-int parse(const char* filename, struct target_list* tl, struct var_list* vl);
+int line_is_empty(char* line);
+
+int parse(const char* filename, struct vector* targets, struct vector* vars);
 
 #endif /* ! PARSER_H */
