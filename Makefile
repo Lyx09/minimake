@@ -1,5 +1,5 @@
 SRC=src/*.c
-OBJ=${SRC:.c=/o}
+OBJ=${SRC:.c=.o}
 CC=gcc
 
 all: minimake
