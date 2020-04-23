@@ -1,0 +1,4 @@
+abcd	efg=abc
+
+all:
+	echo ${abcd	efg}

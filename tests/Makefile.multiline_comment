@@ -1,0 +1,7 @@
+# This is a really really long \
+comment and it spans multiple \
+lines. It will end once there \
+is nothing more to say
+
+a:
+	echo hello
