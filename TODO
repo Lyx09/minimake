@@ -20,3 +20,6 @@
 - [ ] Pattern rules
 - [ ] Special variables
 - [ ] Phony targets
+
+# Other
+- [ ] Replace explicit casts by implicit casts
