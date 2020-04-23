@@ -1,0 +1,22 @@
+# Core features
+- [X] Command-line options
+- [/] Rule parsing
+- [/] Pretty-printing
+- [ ] Variables
+- [ ] Target selection
+- [ ] Command execution
+- [ ] Executed command log
+- [ ] Build scheduling
+    - [ ] A basic algorithm
+    - [ ] Target deduplication
+    - [ ] Up to date targets
+
+# Additional features
+- [X] Makefile selection
+- [ ] Self building project
+- [X] Comments
+- [ ] Recursive variables
+- [ ] Environment variables
+- [ ] Pattern rules
+- [ ] Special variables
+- [ ] Phony targets
