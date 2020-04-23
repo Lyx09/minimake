@@ -9,27 +9,27 @@ void pretty_print(struct vector* targets, struct vector* vars)
     printf("# variables\n");
 
     // FIXME: !!! Add variable expansion
-    for (int i = 0; i < vars->size; i++)
+    for (size_t i = 0; i < vars->size; i++)
     {
         struct var *v = vector_get(vars, i);
         printf("'%s' = '%s'\n", v->name, v->value);
     }
 
     printf("# rules\n");
-    for (int i = 0; i < targets->size; i++)
+    for (size_t i = 0; i < targets->size; i++)
     {
         struct target *t = vector_get(targets, i);
         struct vector *deps = t->dependencies;
-        struct vector *cmds = t->commdands;
+        struct vector *cmds = t->commands;
 
         printf("(%s):", t->name);
-        for (int j = 0; j < deps->size; j++)
-            printf(" [%s]", vector_get(deps, j));
+        for (size_t j = 0; j < deps->size; j++)
+            printf(" [%s]", (char *)vector_get(deps, j));
 
         printf("\n");
 
-        for (int j = 0; j < cmds->size; j++)
-            printf("\t'%s'\n", vector_get(cmds, j));
+        for (size_t j = 0; j < cmds->size; j++)
+            printf("\t'%s'\n", (char *)vector_get(cmds, j));
     }
     return;
 }
