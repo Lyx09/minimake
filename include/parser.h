@@ -3,23 +3,34 @@
 
 #include "vector.h"
 
+
+#define LINE_EMPTY      0x1
+#define LINE_VAR_DEF    0x2
+#define LINE_TARGET_DEF 0x3
+#define LINE_OTHER      0x4     // everything else ie. recipe or garbage
+
+
 struct target
 {
-    char* line;
-    size_t name;         // index in line
-    struct vector dependencies; // strings
-    struct vector commands;     // char*
+    char *line;                 // malloc'd by getline
+    char *name;                 // points to line
+    struct vector *dependencies; // vec of char *pointing to line
+    struct vector *commands;     // vec of char *malloc'd by getline
 };
 
 struct var
 {
-    char* line;
-    size_t name;         // index in line
-    size_t value;        // index in line
+    char *line;                 // malloc'd by getline
+    char *name;                 // points to line
+    char *value;                // points to line
 };
 
-int line_is_empty(char* line);
+int line_type(char *line);
 
-int parse(const char* filename, struct vector* targets, struct vector* vars);
+int parse_var_def(struct vector *vars, char *line);
+
+int parse_target_def(struct vector *targets, char *line, FILE *makefile);
+
+int parse(const char *filename, struct vector *targets, struct vector *vars);
 
 #endif /* ! PARSER_H */
