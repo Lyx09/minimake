@@ -40,6 +40,15 @@ void free_targets(struct vector *targets)
     return;
 }
 
+
+int target_exists(char *target, struct vector *targets)
+{
+    for (size_t i = 0; i < targets->size; i++)
+        if (! strcmp(((struct target*)vector_get(targets, i))->name, target))
+            return TRUE;
+    return FALSE;
+}
+
 int main(int argc, char *argv[])
 {
     struct options opts = opt_parse(argc, argv);
