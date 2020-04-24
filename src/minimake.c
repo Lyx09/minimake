@@ -58,11 +58,11 @@ int main(int argc, char *argv[])
     memset(filename, 0, FILENAME_MAX + 1);
     if (opts.filename)
         strncpy(filename, opts.filename, FILENAME_MAX);
-    if(!strlen(filename) && !access("makefile", F_OK))
+    else if(!strlen(filename) && !access("makefile", F_OK))
         strcpy(filename, "makefile");
-    if(!strlen(filename) && !access("Makefile", F_OK))
+    else if(!strlen(filename) && !access("Makefile", F_OK))
         strcpy(filename, "Makefile");
-    if(!strlen(filename))
+    else
     {
         if (opts.nonopts < argc)
         {
