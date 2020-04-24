@@ -5,7 +5,7 @@
 - [ ] Variables
 - [X] Target selection
 - [ ] Command execution
-- [ ] Executed command log
+- [X] Executed command log
 - [ ] Build scheduling
     - [ ] A basic algorithm
     - [ ] Target deduplication
