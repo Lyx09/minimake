@@ -127,10 +127,12 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
         l = NULL;
         len = 0;
     }
+    free(l); // Don't forget this one !
 
     return line_nb;
 }
 
+// Returns 1 if everythin went right -1 otherwise
 int parse(const char *filename, struct vector *targets, struct vector *vars)
 {
     (void) targets;
@@ -139,8 +141,11 @@ int parse(const char *filename, struct vector *targets, struct vector *vars)
     char *line = NULL;
     size_t len = 0;
     int line_nb = 1;
+
+    int error = FALSE;
+
     for (ssize_t nb_bytes = 0; 
-            (nb_bytes = getline(&line, &len, makefile)) != -1;
+            !error && (nb_bytes = getline(&line, &len, makefile)) != -1;
             line_nb++)
     { 
 
@@ -151,30 +156,38 @@ int parse(const char *filename, struct vector *targets, struct vector *vars)
         switch (line_type(line))
         {
             case LINE_EMPTY:
-                continue;
+                free(line);
                 break;
             case LINE_VAR_DEF:
-                // FIXME: Check RC
-                parse_var_def(vars, line);
-                line = NULL;
-                len = 0;
+                if (parse_var_def(vars, line) == -1)
+                    error = TRUE;
                 break;
             case LINE_TARGET_DEF:
-                // FIXME: Check RC
-                line_nb += parse_target_def(targets, line, makefile);
-                line = NULL;
-                len = 0;
-                break;
+                {
+                    int ret = parse_target_def(targets, line, makefile);
+                    if (ret == -1 )
+                        error = TRUE;
+                    else
+                        line_nb += ret;
+                    break;
+                }
             case LINE_OTHER:
                 fprintf(stderr, "%s:%d: *** missing separator.  Stop.\n",
                         filename, line_nb);
-                exit(RC_ERROR);
+                free(line);
+                error = TRUE;
+                break;
             default:
                 fprintf(stderr, "Error: Case should not be reached !\n");
-                exit(RC_ERROR);
+                free(line);
+                error = TRUE;
+                break;
         }
+        line = NULL;
+        len = 0;
     }
 
+    free(line); // Don't forget this one !
     fclose(makefile);
-    return 0;
+    return 1;
 }
