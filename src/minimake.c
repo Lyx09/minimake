@@ -102,6 +102,15 @@ int main(int argc, char *argv[])
 
     if (opts.nonopts == argc) // No target specified, calling first one
     {
+        // TODO: Skip pattern targets "%"
+        if (vector_is_empty(targets))
+        {
+           fprintf(stderr, "%s: *** No targets.  Stop.\n", argv[0]); 
+           free_vars(vars);
+           free_targets(targets);
+           exit(RC_ERROR);
+        }
+
         exec_target(((struct target*)vector_peek_head(targets))->name,
                 targets, vars);
     }
