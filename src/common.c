@@ -15,9 +15,9 @@ void trim(char *s, const char* trim_char)
 {
     int end = strlen(s);
     int begin = 0;
-    for (; chr_in_str(trim_char, s[begin]); begin++)
+    for (; begin < end && chr_in_str(trim_char, s[begin]); begin++)
         continue;
-    for (; chr_in_str(trim_char, s[end]); end--)
+    for (; end >= begin && chr_in_str(trim_char, s[end]); end--)
         continue;
     memmove(s, s + begin, end - begin + 1);
     s[end - begin + 1] = '\0';
