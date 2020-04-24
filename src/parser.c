@@ -121,7 +121,7 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
     return line_nb;
 }
 
-// Returns 1 if everythin went right -1 otherwise
+// Returns 1 if everything went right -1 otherwise
 int parse(const char *filename, struct vector *targets, struct vector *vars)
 {
     (void) targets;
@@ -178,5 +178,5 @@ int parse(const char *filename, struct vector *targets, struct vector *vars)
 
     free(line); // Don't forget this one !
     fclose(makefile);
-    return 1;
+    return error ? -1 : 1;
 }
