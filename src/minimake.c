@@ -40,7 +40,8 @@ void free_targets(struct vector *targets)
     return;
 }
 
-int main(int argc, char *argv[])
+// TODO: Handle envp
+int main(int argc, char *argv[]) //, char *envp[])
 {
     struct options opts = opt_parse(argc, argv);
 
