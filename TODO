@@ -3,7 +3,7 @@
 - [X] Rule parsing
 - [X] Pretty-printing
 - [ ] Variables
-- [ ] Target selection
+- [X] Target selection
 - [ ] Command execution
 - [ ] Executed command log
 - [ ] Build scheduling
