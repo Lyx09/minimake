@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
     }
 
 
-    // For later
+    // For later, default is first rule
     //for (; opts.nonopts < argc; opts.nonopts++)
         //exec_target(argv[opts.nonopts]);
 
