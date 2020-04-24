@@ -118,7 +118,16 @@ int main(int argc, char *argv[])
     {
         for (; opts.nonopts < argc; opts.nonopts++)
         {
-            exec_target(argv[opts.nonopts], targets, vars);
+            if (! target_exists(argv[opts.nonopts], targets))
+            {
+                fprintf(stderr, "%s: *** No rule to make target '%s'. \n",
+                        argv[0], argv[opts.nonopts]); 
+                free_vars(vars);
+                free_targets(targets);
+                exit(RC_ERROR);
+            }
+            else
+                exec_target(argv[opts.nonopts], targets, vars);
         }
     }
 
