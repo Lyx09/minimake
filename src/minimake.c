@@ -53,6 +53,7 @@ int main(int argc, char *argv[])
 {
     struct options opts = opt_parse(argc, argv);
 
+    // MAKEFILE SELECTION
     char filename[FILENAME_MAX + 1];
     memset(filename, 0, FILENAME_MAX + 1);
     if (opts.filename)
@@ -84,6 +85,7 @@ int main(int argc, char *argv[])
     struct vector *targets = vector_init(10);   // vector of struct target*
     struct vector *vars = vector_init(10);      // vector of struct var*
 
+    // PARSING
     if (parse(filename, targets, vars) == -1)
     {
         free_vars(vars);
@@ -91,6 +93,7 @@ int main(int argc, char *argv[])
         exit(RC_ERROR);
     }
 
+    // PRETTY PRINT
     if (opts.flags & FLAG_PRETTY_PRINT)
     {
         pretty_print(targets, vars);
@@ -100,6 +103,7 @@ int main(int argc, char *argv[])
     }
 
 
+    // TARGET SELECTION
     if (opts.nonopts == argc) // No target specified, calling first one
     {
         // TODO: Skip pattern targets "%"
