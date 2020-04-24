@@ -1,0 +1,3 @@
+SIMPLE_VAR_COMMENT = the comment is gone # comment
+a:
+	echo [${SIMPLE_VAR_COMMENT}]

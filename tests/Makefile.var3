@@ -1,0 +1,4 @@
+VAR= abc       	      
+
+a:
+	echo [${VAR}]
