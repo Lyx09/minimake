@@ -77,7 +77,7 @@ vtype vector_pop_tail(struct vector *v)
     return ret;
 }
 
-int vector_isempty(struct vector *v)
+int vector_is_empty(struct vector *v)
 {
     return (v->size == 0);
 }

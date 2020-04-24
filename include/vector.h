@@ -24,7 +24,7 @@ vtype vector_peek_head(struct vector *v);
 
 vtype vector_get(struct vector *v, size_t pos);
 
-int vector_isempty(struct vector *v);
+int vector_is_empty(struct vector *v);
 
 int vector_is_in(struct vector *v, vtype elt);
 
