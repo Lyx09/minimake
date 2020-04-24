@@ -1,0 +1,9 @@
+aaa:
+	command a
+	command b
+bbb:
+	command c
+	command d
+ccc:
+	command e
+	command f
