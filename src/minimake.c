@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
     {
         free_vars(vars);
         free_targets(targets);
-        exit(RC_SUCCESS);
+        exit(RC_ERROR);
     }
     
     if (opts.flags & FLAG_PRETTY_PRINT)
