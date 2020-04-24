@@ -1,0 +1,3 @@
+# Check if command is trimmed
+a:
+		  echo a b c		  
