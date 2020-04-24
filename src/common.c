@@ -53,3 +53,10 @@ void remove_comment(char *line)
         *com = '\0';
     return;
 }
+
+void remove_trailing_nl(char *line, int len)
+{
+    if (line[len] == '\n')
+        line[len] = '\0';
+    return;
+}

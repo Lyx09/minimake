@@ -19,4 +19,6 @@ char *split_line(char *line, char c);
 
 void remove_comment(char *line);
 
+void remove_trailing_nl(char *line, int len);
+
 #endif /* ! COMMON_H */
