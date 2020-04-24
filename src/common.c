@@ -54,9 +54,13 @@ void rm_comment(char *line)
     return;
 }
 
-void rm_trailing_nl(char *line, int len)
+// return the new value of len
+int rm_trailing_nl(char *line, int len)
 {
     if (line[len - 1] == '\n')
+    {
         line[len - 1] = '\0';
-    return;
+        return len - 1;
+    }
+    return len;
 }

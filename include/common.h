@@ -19,6 +19,6 @@ char *split_line(char *line, char c);
 
 void rm_comment(char *line);
 
-void rm_trailing_nl(char *line, int len);
+int rm_trailing_nl(char *line, int len);
 
 #endif /* ! COMMON_H */
