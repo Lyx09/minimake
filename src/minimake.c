@@ -40,6 +40,39 @@ void free_targets(struct vector *targets)
     return;
 }
 
+void free_and_exit(struct vector *targets, struct vector *vars, int rc)
+{
+    free_vars(vars);
+    free_targets(targets);
+    exit(rc);
+
+    return;
+}
+
+void test_exec_ret_code(int ret, char *target, struct vector *targets, 
+        struct vector *vars, char *prog_name, char *filename)
+{
+    if (ret < 0)
+    {
+        switch (ret)
+        {
+            case -2:
+                // This message is not exactly as the make one
+                fprintf(stderr, "%s: *** [%s: %s] Error return code was not 0",
+                        prog_name, filename, target);
+                break;
+            case -1:
+                fprintf(stderr, "%s: *** No rule to make target '%s'. \n",
+                        prog_name, target);
+                break;
+            default:
+                fprintf(stderr, "ERROR: This case should not be reached !");
+                break;
+        }
+        free_and_exit(targets, vars, RC_ERROR);
+    }
+}
+
 // TODO: Handle envp
 int main(int argc, char *argv[]) //, char *envp[])
 {
@@ -79,19 +112,13 @@ int main(int argc, char *argv[]) //, char *envp[])
 
     // PARSING
     if (parse(filename, targets, vars) == -1)
-    {
-        free_vars(vars);
-        free_targets(targets);
-        exit(RC_ERROR);
-    }
+        free_and_exit(targets, vars, RC_ERROR);
 
     // PRETTY PRINT
     if (opts.flags & FLAG_PRETTY_PRINT)
     {
         pretty_print(targets, vars);
-        free_vars(vars);
-        free_targets(targets);
-        exit(RC_SUCCESS);
+        free_and_exit(targets, vars, RC_SUCCESS);
     }
 
 
@@ -102,32 +129,24 @@ int main(int argc, char *argv[]) //, char *envp[])
         if (vector_is_empty(targets))
         {
            fprintf(stderr, "%s: *** No targets.  Stop.\n", argv[0]);
-           free_vars(vars);
-           free_targets(targets);
-           exit(RC_ERROR);
+           free_and_exit(targets, vars, RC_ERROR);
         }
 
-        exec_target(((struct target*)vector_peek_head(targets))->name,
-                targets, vars);
+        struct target *target = (struct target*)vector_peek_head(targets);
+        int ret = exec_target(target->name, targets, vars);
+        test_exec_ret_code(ret, target->name, targets, vars, argv[0],
+                filename);
     }
     else
     {
         for (; opts.nonopts < argc; opts.nonopts++)
         {
-            if (exec_target(argv[opts.nonopts], targets, vars) != -1)
-                continue;
-
-            fprintf(stderr, "%s: *** No rule to make target '%s'. \n",
-                    argv[0], argv[opts.nonopts]);
-            free_vars(vars);
-            free_targets(targets);
-            exit(RC_ERROR);
+            int ret = exec_target(argv[opts.nonopts], targets, vars);
+            test_exec_ret_code(ret, argv[opts.nonopts], targets, vars, argv[0],
+                    filename);
         }
     }
 
-    // some free time
-    free_vars(vars);
-    free_targets(targets);
-
-    return RC_SUCCESS;
+    free_and_exit(targets, vars, RC_SUCCESS);
+    return RC_SUCCESS; //useless
 }
