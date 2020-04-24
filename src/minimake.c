@@ -80,9 +80,18 @@ int main(int argc, char *argv[])
     }
 
 
-    // For later, default is first rule
-    //for (; opts.nonopts < argc; opts.nonopts++)
-        //exec_target(argv[opts.nonopts]);
+    if (opts.nonopts == argc) // No target specified, calling first one
+    {
+        exec_target(((struct target*)vector_peek_head(targets))->name,
+                targets, vars);
+    }
+    else
+    {
+        for (; opts.nonopts < argc; opts.nonopts++)
+        {
+            exec_target(argv[opts.nonopts], targets, vars);
+        }
+    }
 
     // some free time
     free_vars(vars);
