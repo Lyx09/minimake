@@ -46,7 +46,7 @@ char *split_line(char *line, char c)
 }
 
 // FIXME handle escaped COMMENT_CHAR or in ""
-void remove_comment(char *line)
+void rm_comment(char *line)
 {
     char *com = strchr(line, COMMENT_CHAR);
     if (com != NULL)
@@ -54,9 +54,9 @@ void remove_comment(char *line)
     return;
 }
 
-void remove_trailing_nl(char *line, int len)
+void rm_trailing_nl(char *line, int len)
 {
-    if (line[len] == '\n')
-        line[len] = '\0';
+    if (line[len - 1] == '\n')
+        line[len - 1] = '\0';
     return;
 }

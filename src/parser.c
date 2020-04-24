@@ -92,7 +92,7 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
             (nb_bytes = getline(&l, &len, makefile)) != -1;
             line_nb++)
     {
-        remove_trailing_nl(line, nb_bytes);
+        rm_trailing_nl(line, nb_bytes);
 
         if (l[0] != '\t')
         {
@@ -124,8 +124,8 @@ int parse(const char *filename, struct vector *targets, struct vector *vars)
     { 
 
         // multiline should be handled here
-        remove_comment(line);
-        remove_trailing_nl(line, nb_bytes);
+        rm_comment(line);
+        rm_trailing_nl(line, nb_bytes);
 
         switch (line_type(line))
         {
