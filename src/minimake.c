@@ -40,15 +40,6 @@ void free_targets(struct vector *targets)
     return;
 }
 
-
-int target_exists(char *target, struct vector *targets)
-{
-    for (size_t i = 0; i < targets->size; i++)
-        if (! strcmp(((struct target*)vector_get(targets, i))->name, target))
-            return TRUE;
-    return FALSE;
-}
-
 int main(int argc, char *argv[])
 {
     struct options opts = opt_parse(argc, argv);
@@ -122,16 +113,14 @@ int main(int argc, char *argv[])
     {
         for (; opts.nonopts < argc; opts.nonopts++)
         {
-            if (! target_exists(argv[opts.nonopts], targets))
-            {
-                fprintf(stderr, "%s: *** No rule to make target '%s'. \n",
-                        argv[0], argv[opts.nonopts]);
-                free_vars(vars);
-                free_targets(targets);
-                exit(RC_ERROR);
-            }
-            else
-                exec_target(argv[opts.nonopts], targets, vars);
+            if (exec_target(argv[opts.nonopts], targets, vars) != -1)
+                continue;
+
+            fprintf(stderr, "%s: *** No rule to make target '%s'. \n",
+                    argv[0], argv[opts.nonopts]);
+            free_vars(vars);
+            free_targets(targets);
+            exit(RC_ERROR);
         }
     }
 
