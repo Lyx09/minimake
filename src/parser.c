@@ -105,7 +105,7 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
 
         if (l[0] != '\t')
         {
-            fseek(makefile, -nb_bytes, SEEK_CUR); // Forget this line
+            fseek(makefile, -nb_bytes - 1, SEEK_CUR); // Forget this line
             line_nb--;
             break;
         }
