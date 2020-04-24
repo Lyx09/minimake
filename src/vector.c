@@ -10,7 +10,7 @@ struct vector *vector_init(size_t capacity)
     struct vector *v = malloc(sizeof(struct vector));
     if (!v)
         return NULL;
-    v->arr = malloc(capacity * sizeof(void*));
+    v->arr = malloc(capacity * sizeof(void *));
     if (!v->arr)
     {
         free(v);

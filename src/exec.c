@@ -22,10 +22,10 @@ int exec_target(char *target, struct vector *targets, struct vector *vars)
     {
         struct target *t = vector_get(targets, i);
         struct vector *deps = t->dependencies;
-        
+
         if (strcmp(t->name, target))
             continue;
-        
+
         // Handle dependencies
 
         // TODO: Fix circular dependencies

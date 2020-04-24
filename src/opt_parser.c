@@ -9,7 +9,7 @@
 
 void usage_message(char *binname)
 {
-    fprintf(stderr, "Usage: %s [options] [target] ...\n", binname); 
+    fprintf(stderr, "Usage: %s [options] [target] ...\n", binname);
     fprintf(stderr, "Options:\n");
     fprintf(stderr, "  -f FILE             Read FILE as a makefile.\n");
     fprintf(stderr, "  -h                  Print this message and exit.\n");

@@ -133,10 +133,10 @@ int parse(const char *filename, struct vector *targets, struct vector *vars)
 
     int error = FALSE;
 
-    for (ssize_t nb_bytes = 0; 
+    for (ssize_t nb_bytes = 0;
             !error && (nb_bytes = getline(&line, &len, makefile)) != -1;
             line_nb++)
-    { 
+    {
 
         // multiline should be handled here
         rm_comment(line);

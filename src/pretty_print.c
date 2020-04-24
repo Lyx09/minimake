@@ -24,12 +24,18 @@ void pretty_print(struct vector *targets, struct vector *vars)
 
         printf("(%s):", t->name);
         for (size_t j = 0; j < deps->size; j++)
-            printf(" [%s]", (char *)vector_get(deps, j));
+        {
+            char *dep = vector_get(deps, j);
+            printf(" [%s]", dep);
+        }
 
         printf("\n");
 
         for (size_t j = 0; j < cmds->size; j++)
-            printf("\t'%s'\n", (char *)vector_get(cmds, j));
+        {
+            char *cmd = vector_get(cmds, j);
+            printf("\t'%s'\n", cmd);
+        }
     }
     return;
 }

@@ -49,7 +49,7 @@ void free_and_exit(struct vector *targets, struct vector *vars, int rc)
     return;
 }
 
-void test_exec_ret_code(int ret, char *target, struct vector *targets, 
+void test_exec_ret_code(int ret, char *target, struct vector *targets,
         struct vector *vars, char *prog_name, char *filename)
 {
     if (ret < 0)
