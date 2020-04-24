@@ -46,11 +46,28 @@ int exec_target(char *target, struct vector *targets, struct vector *vars)
                 fflush(stdout);
             }
 
-        }
+            // Execution
+            int pid = fork();
+            if (pid == 0)
+            {
+                char *cmd_argv[3];
+                cmd_argv[0] = "-c";
+                cmd_argv[1] = command;
+                cmd_argv[2] = NULL;
 
+                execv("/bin/sh", cmd_argv);
+                // An error occured if this line is reached
+            }
+            else
+            {
+                int wstatus;
+                waitpid(pid, &wstatus, 0);
+                if (WEXITSTATUS(wstatus) != 0)
+                    return -2;
+            }
+        }
 
         return 1;
     }
-
     return -1;
 }
