@@ -1,7 +1,7 @@
 # Core features
 - [X] Command-line options
-- [/] Rule parsing
-- [/] Pretty-printing
+- [X] Rule parsing
+- [X] Pretty-printing
 - [ ] Variables
 - [ ] Target selection
 - [ ] Command execution
