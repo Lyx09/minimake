@@ -64,7 +64,12 @@ int main(int argc, char *argv[])
     struct vector *targets = vector_init(10);   // vector of struct target*
     struct vector *vars = vector_init(10);      // vector of struct var*
 
-    parse(filename, targets, vars);
+    if (parse(filename, targets, vars) == -1)
+    {
+        free_vars(vars);
+        free_targets(targets);
+        exit(RC_SUCCESS);
+    }
     
     if (opts.flags & FLAG_PRETTY_PRINT)
     {
