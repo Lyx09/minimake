@@ -52,7 +52,7 @@ int target_exists(char *target, struct vector *targets)
 int main(int argc, char *argv[])
 {
     struct options opts = opt_parse(argc, argv);
-    
+
     char filename[FILENAME_MAX + 1];
     memset(filename, 0, FILENAME_MAX + 1);
     if (opts.filename)
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
         free_targets(targets);
         exit(RC_ERROR);
     }
-    
+
     if (opts.flags & FLAG_PRETTY_PRINT)
     {
         pretty_print(targets, vars);
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
         // TODO: Skip pattern targets "%"
         if (vector_is_empty(targets))
         {
-           fprintf(stderr, "%s: *** No targets.  Stop.\n", argv[0]); 
+           fprintf(stderr, "%s: *** No targets.  Stop.\n", argv[0]);
            free_vars(vars);
            free_targets(targets);
            exit(RC_ERROR);
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
             if (! target_exists(argv[opts.nonopts], targets))
             {
                 fprintf(stderr, "%s: *** No rule to make target '%s'. \n",
-                        argv[0], argv[opts.nonopts]); 
+                        argv[0], argv[opts.nonopts]);
                 free_vars(vars);
                 free_targets(targets);
                 exit(RC_ERROR);
@@ -134,6 +134,6 @@ int main(int argc, char *argv[])
     // some free time
     free_vars(vars);
     free_targets(targets);
-    
+
     return RC_SUCCESS;
 }
