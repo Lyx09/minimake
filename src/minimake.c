@@ -5,7 +5,6 @@
 
 #include "common.h"
 #include "exec.h"
-#include "lexer.h"
 #include "opt_parser.h"
 #include "parser.h"
 #include "pretty_print.h"
