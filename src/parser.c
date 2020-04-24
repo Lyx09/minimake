@@ -9,10 +9,11 @@
 #include "common.h"
 
 // Tells if a line is empty, is var def, target or recipe
+// Trailing newline should be removed before calling line_type()
 int line_type(char *line)
 {
     int is_empty = TRUE;
-    for (int i = 0; !line[i]; i++)
+    for (int i = 0; line[i]; i++)
     {
         if (line[i] == ':')
             return LINE_TARGET_DEF;
@@ -39,7 +40,7 @@ int parse_var_def(struct vector *vars, char *line)
         return 0;
 
     trim(line, " \t");
-    trim(value, " \t\n");
+    trim(value, " \t");
 
     v->name = line;
     v->value = value;
@@ -66,7 +67,7 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
         return 0;
 
     trim(line, " \t");
-    trim(deps_str, " \t\n");
+    trim(deps_str, " \t");
 
     t->name = line;
     if (!is_valid_token(t->name, " \t:#="))
@@ -91,6 +92,8 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
             (nb_bytes = getline(&l, &len, makefile)) != -1;
             line_nb++)
     {
+        remove_trailing_nl(line, nb_bytes);
+
         if (l[0] != '\t')
         {
             fseek(makefile, -nb_bytes, SEEK_CUR); // Forget this line
@@ -119,8 +122,10 @@ int parse(const char *filename, struct vector *targets, struct vector *vars)
             (nb_bytes = getline(&line, &len, makefile)) != -1;
             line_nb++)
     { 
+
         // multiline should be handled here
         remove_comment(line);
+        remove_trailing_nl(line, nb_bytes);
 
         switch (line_type(line))
         {
