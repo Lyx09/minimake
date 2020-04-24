@@ -4,7 +4,7 @@
 - [X] Pretty-printing
 - [ ] Variables
 - [X] Target selection
-- [ ] Command execution
+- [X] Command execution
 - [X] Executed command log
 - [ ] Build scheduling
     - [ ] A basic algorithm
