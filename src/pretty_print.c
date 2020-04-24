@@ -4,7 +4,7 @@
 #include "vector.h"
 #include "parser.h"
 
-void pretty_print(struct vector* targets, struct vector* vars)
+void pretty_print(struct vector *targets, struct vector *vars)
 {
     printf("# variables\n");
 

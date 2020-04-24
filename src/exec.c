@@ -42,7 +42,7 @@ int exec_target(char *target, struct vector *targets, struct vector *vars)
             char *command = vector_get(cmds, j);
             if (command[0] != '@')
             {
-                printf("%s", command);
+                printf("%s\n", command);
                 fflush(stdout);
             }
 
@@ -50,12 +50,11 @@ int exec_target(char *target, struct vector *targets, struct vector *vars)
             int pid = fork();
             if (pid == 0)
             {
-                char *cmd_argv[3];
-                cmd_argv[0] = "-c";
-                cmd_argv[1] = command;
-                cmd_argv[2] = NULL;
+                char *cmd_argv[2];
+                cmd_argv[0] = command;
+                cmd_argv[1] = NULL;
 
-                execv("/bin/sh", cmd_argv);
+                execv("/bin/sh -c", cmd_argv);
                 // An error occured if this line is reached
             }
             else

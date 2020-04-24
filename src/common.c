@@ -11,7 +11,7 @@ int chr_in_str(const char *s, const char c)
 
 // Modify s so that only the interesting part is kept in front
 // trim_char will usually be "\t "
-void trim(char *s, const char* trim_chars)
+void trim(char *s, const char *trim_chars)
 {
     int end = strlen(s);
     int begin = 0;

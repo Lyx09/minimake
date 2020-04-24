@@ -132,7 +132,7 @@ int main(int argc, char *argv[]) //, char *envp[])
            free_and_exit(targets, vars, RC_ERROR);
         }
 
-        struct target *target = (struct target*)vector_peek_head(targets);
+        struct target *target = vector_peek_head(targets);
         int ret = exec_target(target->name, targets, vars);
         test_exec_ret_code(ret, target->name, targets, vars, argv[0],
                 filename);
