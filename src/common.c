@@ -49,6 +49,7 @@ char *split_line(char *line, char c)
 void remove_comment(char *line)
 {
     char *com = strchr(line, COMMENT_CHAR);
-    *com = '\0';
+    if (com != NULL)
+        *com = '\0';
     return;
 }
