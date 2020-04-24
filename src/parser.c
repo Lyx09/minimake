@@ -40,14 +40,8 @@ int parse_var_def(struct vector *vars, char *line)
         return 0;
 
     trim(line, " \t");
-    // TODO: Make it a function
     // Remove leading whitespace but not trailing ones
-    int i = 0;
-    int len = strlen(value);
-    for (; value[i] && chr_in_str(" \t", value[i]); i++)
-        continue;
-    memmove(value, value + i, len - i);
-    value[len - i] = '\0';
+    rm_leading(value, " \t");
 
     v->name = line;
     v->value = value;
@@ -116,12 +110,7 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
             break;
         }
 
-        // Remove leading whitespace but not trailing ones
-        int i = 0;
-        for (; l[i] && chr_in_str(" \t", l[i]); i++)
-            continue;
-        memmove(l, l + i, nb_bytes - i);
-        l[nb_bytes - i] = '\0';
+        rm_leading(l, " \t");
 
         vector_append(cmds, l);
         l = NULL;

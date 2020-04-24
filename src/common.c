@@ -11,13 +11,13 @@ int chr_in_str(const char *s, const char c)
 
 // Modify s so that only the interesting part is kept in front
 // trim_char will usually be "\t "
-void trim(char *s, const char* trim_char)
+void trim(char *s, const char* trim_chars)
 {
     int end = strlen(s);
     int begin = 0;
-    for (; begin < end && chr_in_str(trim_char, s[begin]); begin++)
+    for (; begin < end && chr_in_str(trim_chars, s[begin]); begin++)
         continue;
-    for (; end >= begin && chr_in_str(trim_char, s[end]); end--)
+    for (; end >= begin && chr_in_str(trim_chars, s[end]); end--)
         continue;
     memmove(s, s + begin, end - begin + 1);
     s[end - begin + 1] = '\0';
@@ -54,6 +54,7 @@ void rm_comment(char *line)
     return;
 }
 
+// TODO: Replace by rm_trailing instead ?
 // return the new value of len
 int rm_trailing_nl(char *line, int len)
 {
@@ -63,4 +64,16 @@ int rm_trailing_nl(char *line, int len)
         return len - 1;
     }
     return len;
+}
+
+void rm_leading(char *line, char *trim_chars)
+{
+    int i = 0;
+    int len = strlen(line);
+    for (; line[i] && chr_in_str(trim_chars, line[i]); i++)
+        continue;
+    memmove(line, line + i, len - i);
+    line[len - i] = '\0';
+
+    return;
 }
