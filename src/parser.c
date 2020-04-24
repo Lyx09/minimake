@@ -112,7 +112,7 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
         int i = 0;
         for (; l[i] && chr_in_str(" \t", l[i]); i++)
             continue;
-        memmove(s, s + i, nb_bytes - i);
+        memmove(l, l + i, nb_bytes - i);
         l[nb_bytes - i + 1] = '\0';
 
         vector_append(cmds, l);
