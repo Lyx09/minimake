@@ -13,7 +13,7 @@
 int line_type(char *line)
 {
     int is_empty = TRUE;
-    for (int i = 0; line[i]; i++)
+    for (int i = 0; line[i] || line[i] != COMMENT_CHAR; i++)
     {
         if (line[i] == ':')
             return LINE_TARGET_DEF;
@@ -92,7 +92,14 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
             (nb_bytes = getline(&l, &len, makefile)) != -1;
             line_nb++)
     {
-        rm_trailing_nl(line, nb_bytes);
+        nb_bytes = rm_trailing_nl(l, nb_bytes);
+        if (line_type(l) == LINE_EMPTY)
+        {
+            free(l);
+            l = NULL;
+            len = 0;
+        }
+
 
         if (l[0] != '\t')
         {
@@ -101,7 +108,13 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
             break;
         }
 
-        trim(l, " \t\n");
+        // Remove leading whitespace but not trailing ones
+        int i = 0;
+        for (; l[i] && chr_in_str(" \t", l[i]); i++)
+            continue;
+        memmove(s, s + i, nb_bytes - i);
+        l[nb_bytes - i + 1] = '\0';
+
         vector_append(cmds, l);
         l = NULL;
         len = 0;
