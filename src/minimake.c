@@ -70,6 +70,8 @@ int main(int argc, char *argv[])
     if (opts.flags & FLAG_PRETTY_PRINT)
     {
         pretty_print(targets, vars);
+        free_vars(vars);
+        free_targets(targets);
         exit(RC_SUCCESS);
     }
 
