@@ -22,4 +22,4 @@
 - [ ] Phony targets
 
 # Other
-- [ ] Replace explicit casts by implicit casts
+- [X] Replace explicit casts by implicit casts
