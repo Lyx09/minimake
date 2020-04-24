@@ -13,7 +13,7 @@
 int line_type(char *line)
 {
     int is_empty = TRUE;
-    for (int i = 0; line[i] || line[i] != COMMENT_CHAR; i++)
+    for (int i = 0; line[i] && line[i] != COMMENT_CHAR; i++)
     {
         if (line[i] == ':')
             return LINE_TARGET_DEF;
@@ -40,7 +40,14 @@ int parse_var_def(struct vector *vars, char *line)
         return 0;
 
     trim(line, " \t");
-    trim(value, " \t");
+    // TODO: Make it a function
+    // Remove leading whitespace but not trailing ones
+    int i = 0;
+    int len = strlen(value);
+    for (; value[i] && chr_in_str(" \t", value[i]); i++)
+        continue;
+    memmove(value, value + i, len - i);
+    value[len - i] = '\0';
 
     v->name = line;
     v->value = value;
@@ -98,6 +105,7 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
             free(l);
             l = NULL;
             len = 0;
+            continue;
         }
 
 
@@ -113,7 +121,7 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
         for (; l[i] && chr_in_str(" \t", l[i]); i++)
             continue;
         memmove(l, l + i, nb_bytes - i);
-        l[nb_bytes - i + 1] = '\0';
+        l[nb_bytes - i] = '\0';
 
         vector_append(cmds, l);
         l = NULL;
