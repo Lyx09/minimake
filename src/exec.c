@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -29,7 +30,11 @@ int exec_target(char *target, struct vector *targets, struct vector *vars)
         // Handle dependencies
 
         // TODO: Fix circular dependencies
-        // TODO: Check recency
+        
+        // Target already built
+        if (! access(t->name, F_OK))
+            return 1;
+
         // Recursivity yay!
         for (size_t j = 0; j < deps->size; j++)
             exec_target(vector_get(deps, j), targets, vars);
@@ -50,12 +55,12 @@ int exec_target(char *target, struct vector *targets, struct vector *vars)
             int pid = fork();
             if (pid == 0)
             {
-                char *cmd_argv[2];
-                cmd_argv[0] = command;
-                cmd_argv[1] = NULL;
 
-                execv("/bin/sh -c", cmd_argv);
+                char *cmd_argv[] = {"/bin/sh", "-c", command, NULL};
+
+                execv(cmd_argv[0], cmd_argv);
                 // An error occured if this line is reached
+
             }
             else
             {
