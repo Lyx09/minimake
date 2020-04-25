@@ -1,3 +1,6 @@
+#define _GNU_SOURCE     // program_invocation_short_name
+
+#include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -10,6 +13,7 @@
 #include "parser.h"
 #include "vector.h"
 
+extern char *program_invocation_short_name;
 extern char **environ;
 
 // return -1 if target was not found, -2 if an error occured, 1 otherwise
@@ -71,11 +75,19 @@ int exec_target(char *target, struct vector *targets, struct vector *vars)
                 int wstatus;
                 waitpid(pid, &wstatus, 0);
                 if (WEXITSTATUS(wstatus) != 0)
+                {
+                    // This message is not exactly as the make one
+                    fprintf(stderr, "%s: *** Error return code was not 0",
+                            program_invocation_short_name);
                     return -2;
+                }
             }
         }
 
         return 1;
     }
+
+    fprintf(stderr, "%s: *** No rule to make target '%s'. Stop.\n",
+            program_invocation_short_name, target);
     return -1;
 }

@@ -55,31 +55,6 @@ void free_and_exit(struct vector *targets, struct vector *vars, int rc)
     return;
 }
 
-// TODO: Move fprintf in exec
-void test_exec_ret_code(int ret, char *target, struct vector *targets,
-        struct vector *vars, char *filename)
-{
-    if (ret < 0)
-    {
-        switch (ret)
-        {
-            case -2:
-                // This message is not exactly as the make one
-                fprintf(stderr, "%s: *** [%s: %s] Error return code was not 0",
-                        program_invocation_short_name, filename, target);
-                break;
-            case -1:
-                fprintf(stderr, "%s: *** No rule to make target '%s'. Stop.\n",
-                        program_invocation_short_name, target);
-                break;
-            default:
-                fprintf(stderr, "ERROR: This case should not be reached !");
-                break;
-        }
-        free_and_exit(targets, vars, RC_ERROR);
-    }
-}
-
 
 void load_vars(struct vector *vars)
 {
@@ -163,18 +138,13 @@ int main(int argc, char *argv[]) //, char *envp[])
         // TODO: Skip pattern targets "%"
 
         struct target *target = vector_peek_head(targets);
-        int ret = exec_target(target->name, targets, vars);
-        test_exec_ret_code(ret, target->name, targets, vars, filename);
+        if (exec_target(target->name, targets, vars) < 0)
+            free_and_exit(targets, vars, RC_ERROR);
     }
     else
-    {
         for (; opts.nonopts < argc; opts.nonopts++)
-        {
-            int ret = exec_target(argv[opts.nonopts], targets, vars);
-            test_exec_ret_code(ret, argv[opts.nonopts], targets, vars,
-                    filename);
-        }
-    }
+            if (exec_target(argv[opts.nonopts], targets, vars) < 0)
+                free_and_exit(targets, vars, RC_ERROR);
 
     free_and_exit(targets, vars, RC_SUCCESS);
     return RC_SUCCESS; //useless
