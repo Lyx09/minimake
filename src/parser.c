@@ -1,5 +1,7 @@
 #define _GNU_SOURCE
 
+#include <unistd.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -7,6 +9,8 @@
 #include "parser.h"
 #include "vector.h"
 #include "common.h"
+
+extern char *program_invocation_short_name;
 
 // Tells if a line is empty, is var def, target or recipe
 // Trailing newline should be removed before calling line_type()
@@ -124,7 +128,15 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
 // Returns 1 if everything went right -1 otherwise
 int parse(const char *filename, struct vector *targets, struct vector *vars)
 {
-    (void) targets;
+    // Note: Move fprint in main ?
+    if (access(filename, F_OK))
+    {
+        fprintf(stderr, "%s: %s: No such file or directory\n", 
+                program_invocation_short_name, filename);
+        fprintf(stderr, "%s: *** No rule to make target '%s'.  Stop.\n", 
+                program_invocation_short_name, filename);
+        return -1;
+    }
     FILE *makefile = fopen(filename, "r");
 
     char *line = NULL;
