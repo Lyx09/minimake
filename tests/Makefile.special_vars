@@ -1,0 +1,10 @@
+a: b      c d
+	echo [$@]
+	echo [$<]
+	echo [$^]
+
+b:
+
+c:
+
+d:
