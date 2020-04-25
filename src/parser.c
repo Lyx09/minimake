@@ -100,6 +100,8 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
             line_nb++)
     {
         nb_bytes = rm_trailing_nl(l, nb_bytes);
+        l = spec_var_substitution(l, t);
+
         if (line_type(l) == LINE_EMPTY)
         {
             free(l);
