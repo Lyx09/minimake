@@ -75,6 +75,7 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
     trim(line, " \t");
     trim(deps_str, " \t");
 
+    // TODO: Only take the first token "   a b:" -> "a"
     t->name = line;
     if (!is_valid_token(t->name, " \t:#="))
         return 0;
