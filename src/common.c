@@ -55,15 +55,12 @@ void rm_comment(char *line)
 }
 
 // TODO: Replace by rm_trailing instead ?
-// return the new value of len
-int rm_trailing_nl(char *line, int len)
+void rm_trailing_nl(char *line)
 {
+    int len = strlen(line);
     if (line[len - 1] == '\n')
-    {
         line[len - 1] = '\0';
-        return len - 1;
-    }
-    return len;
+    return;
 }
 
 void rm_leading(char *line, char *trim_chars)

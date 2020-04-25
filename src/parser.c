@@ -99,7 +99,7 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
             (nb_bytes = getline(&l, &len, makefile)) != -1;
             line_nb++)
     {
-        nb_bytes = rm_trailing_nl(l, nb_bytes);
+        rm_trailing_nl(l);
         l = spec_var_substitution(l, t);
 
         if (line_type(l) == LINE_EMPTY)
@@ -113,7 +113,7 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
 
         if (l[0] != '\t')
         {
-            fseek(makefile, -nb_bytes - 1, SEEK_CUR); // Forget this line
+            fseek(makefile, -nb_bytes, SEEK_CUR); // Forget this line
             line_nb--;
             break;
         }
@@ -149,14 +149,12 @@ int parse(const char *filename, struct vector *targets, struct vector *vars)
     // TODO: is error really useful ?
     int error = FALSE;
 
-    for (ssize_t nb_bytes = 0;
-            !error && (nb_bytes = getline(&line, &len, makefile)) != -1;
-            line_nb++)
+    for (; !error && getline(&line, &len, makefile) != -1; line_nb++)
     {
 
         // multiline should be handled here
         rm_comment(line);
-        rm_trailing_nl(line, nb_bytes);
+        rm_trailing_nl(line);
         line = var_substitution(line, vars);
         if (!line) // Error while parsing var
             return -1;

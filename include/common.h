@@ -19,7 +19,7 @@ char *split_line(char *line, char c);
 
 void rm_comment(char *line);
 
-int rm_trailing_nl(char *line, int len);
+void rm_trailing_nl(char *line);
 
 void rm_leading(char *line, char *trim_chars);
 
