@@ -1,0 +1,3 @@
+
+: depa depb
+	echo hello
