@@ -13,7 +13,6 @@
 // return -1 if target was not found, -2 if an error occured, 1 otherwise
 int exec_target(char *target, struct vector *targets, struct vector *vars)
 {
-    printf("DEBUG: Executing target: %s\n", target);
     // TODO: Handle target duplication ie.
     // mnk will never build the same target twice during the same invocation
 
@@ -33,7 +32,11 @@ int exec_target(char *target, struct vector *targets, struct vector *vars)
         
         // Target already built
         if (! access(t->name, F_OK))
+        {
+            printf("%s: '%s' is up to date.\n", "minimake", target);
             return 1;
+        }
+
 
         // Recursivity yay!
         for (size_t j = 0; j < deps->size; j++)
