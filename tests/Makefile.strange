@@ -1,0 +1,33 @@
+a b c: "d e f" g h i
+	echo 1
+
+d e f:
+	echo 2
+
+g h i:
+	echo 3
+
+"d:
+	echo 4
+
+f":
+	echo 5
+
+g:
+	echo g
+
+h:
+	echo h
+
+i:
+	echo i
+
+d:
+	echo d
+
+e:
+	echo e
+
+f:
+	echo f
+

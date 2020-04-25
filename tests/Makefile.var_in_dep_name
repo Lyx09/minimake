@@ -1,0 +1,7 @@
+var=bcde
+
+abc: a${var}f
+	echo world
+
+abcdef:
+	echo hello

@@ -1,0 +1,4 @@
+var=bcde
+
+a${var}f:
+	echo hello
