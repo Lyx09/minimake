@@ -150,6 +150,13 @@ int main(int argc, char *argv[]) //, char *envp[])
         free_and_exit(targets, vars, RC_SUCCESS);
     }
 
+    if (!targets->size)
+    {
+        fprintf(stderr, "%s: *** No targets. Stop.\n",
+                   program_invocation_short_name);
+        free_and_exit(targets, vars, RC_ERROR);
+    }
+
 
     // TARGET SELECTION
     if (opts.nonopts == argc) // No target specified, calling first one
