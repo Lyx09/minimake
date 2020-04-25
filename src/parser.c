@@ -9,6 +9,7 @@
 #include "parser.h"
 #include "vector.h"
 #include "common.h"
+#include "substitution.h"
 
 extern char *program_invocation_short_name;
 
@@ -142,6 +143,7 @@ int parse(const char *filename, struct vector *targets, struct vector *vars)
     size_t len = 0;
     int line_nb = 1;
 
+    // TODO: is error really useful ?
     int error = FALSE;
 
     for (ssize_t nb_bytes = 0;
@@ -152,6 +154,9 @@ int parse(const char *filename, struct vector *targets, struct vector *vars)
         // multiline should be handled here
         rm_comment(line);
         rm_trailing_nl(line, nb_bytes);
+        line = var_substitution(line, vars);
+        if (!line) // Error while parsing var
+            return -1;
 
         switch (line_type(line))
         {
