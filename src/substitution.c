@@ -21,7 +21,9 @@ char *var_substitution(char *line, struct vector *vars)
     return line;
 }
  
-char *spec_var_substitution(char *line, struct targets *t)
+// Used for variable substitution in commands. Returns the new line substitued
+// Frees the given line. User must free the returned string;
+char *spec_var_substitution(char *line, struct target *t)
 {
 
     (void) line;
