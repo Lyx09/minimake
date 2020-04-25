@@ -16,7 +16,7 @@
 - [X] Self building project
 - [X] Comments
 - [ ] Recursive variables
-- [ ] Environment variables
+- [X] Environment variables
 - [ ] Pattern rules
 - [ ] Special variables
 - [ ] Phony targets
