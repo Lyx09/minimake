@@ -1,0 +1,2 @@
+minimake:
+	gcc -Wall -Werror -Wextra -pedantic -std=c99 src/* -o minimake -I include/ -g
