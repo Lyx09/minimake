@@ -128,7 +128,6 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
 // Returns 1 if everything went right -1 otherwise
 int parse(const char *filename, struct vector *targets, struct vector *vars)
 {
-    // Note: Move fprint in main ?
     if (access(filename, F_OK))
     {
         fprintf(stderr, "%s: %s: No such file or directory\n", 

@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -9,6 +9,8 @@
 
 #include "parser.h"
 #include "vector.h"
+
+extern char **environ;
 
 // return -1 if target was not found, -2 if an error occured, 1 otherwise
 int exec_target(char *target, struct vector *targets, struct vector *vars)
@@ -60,8 +62,7 @@ int exec_target(char *target, struct vector *targets, struct vector *vars)
             {
 
                 char *cmd_argv[] = {"/bin/sh", "-c", command, NULL};
-
-                execv(cmd_argv[0], cmd_argv);
+                execve(cmd_argv[0], cmd_argv, environ);
                 // An error occured if this line is reached
 
             }

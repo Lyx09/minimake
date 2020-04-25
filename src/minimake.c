@@ -1,3 +1,7 @@
+#define _DEFAULT_SOURCE // To use putenv
+#define _GNU_SOURCE     // program_invocation_short_name
+
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,6 +13,8 @@
 #include "parser.h"
 #include "pretty_print.h"
 #include "vector.h"
+
+extern char *program_invocation_short_name;
 
 void free_vars(struct vector *vars)
 {
@@ -49,8 +55,9 @@ void free_and_exit(struct vector *targets, struct vector *vars, int rc)
     return;
 }
 
+// TODO: Move fprintf in exec
 void test_exec_ret_code(int ret, char *target, struct vector *targets,
-        struct vector *vars, char *prog_name, char *filename)
+        struct vector *vars, char *filename)
 {
     if (ret < 0)
     {
@@ -59,11 +66,11 @@ void test_exec_ret_code(int ret, char *target, struct vector *targets,
             case -2:
                 // This message is not exactly as the make one
                 fprintf(stderr, "%s: *** [%s: %s] Error return code was not 0",
-                        prog_name, filename, target);
+                        program_invocation_short_name, filename, target);
                 break;
             case -1:
-                fprintf(stderr, "%s: *** No rule to make target '%s'. \n",
-                        prog_name, target);
+                fprintf(stderr, "%s: *** No rule to make target '%s'. Stop.\n",
+                        program_invocation_short_name, target);
                 break;
             default:
                 fprintf(stderr, "ERROR: This case should not be reached !");
@@ -93,15 +100,14 @@ int main(int argc, char *argv[]) //, char *envp[])
         {
             fprintf(stderr,
                     "%s: *** No rule to make target '%s'.  Stop.\n",
-                    argv[0], argv[opts.nonopts]);
+                    program_invocation_short_name, argv[opts.nonopts]);
             exit(RC_ERROR);
         }
         else
         {
             fprintf(stderr,
                     "%s: *** No targets specified and no makefile found.  "
-                    "Stop.\n",
-                    argv[0]);
+                    "Stop.\n", program_invocation_short_name);
             exit(RC_ERROR);
         }
     }
@@ -128,21 +134,21 @@ int main(int argc, char *argv[]) //, char *envp[])
         // TODO: Skip pattern targets "%"
         if (vector_is_empty(targets))
         {
-           fprintf(stderr, "%s: *** No targets.  Stop.\n", argv[0]);
+           fprintf(stderr, "%s: *** No targets.  Stop.\n",
+                   program_invocation_short_name);
            free_and_exit(targets, vars, RC_ERROR);
         }
 
         struct target *target = vector_peek_head(targets);
         int ret = exec_target(target->name, targets, vars);
-        test_exec_ret_code(ret, target->name, targets, vars, argv[0],
-                filename);
+        test_exec_ret_code(ret, target->name, targets, vars, filename);
     }
     else
     {
         for (; opts.nonopts < argc; opts.nonopts++)
         {
             int ret = exec_target(argv[opts.nonopts], targets, vars);
-            test_exec_ret_code(ret, argv[opts.nonopts], targets, vars, argv[0],
+            test_exec_ret_code(ret, argv[opts.nonopts], targets, vars,
                     filename);
         }
     }
