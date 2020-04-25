@@ -13,7 +13,7 @@
 
 # Additional features
 - [X] Makefile selection
-- [ ] Self building project
+- [X] Self building project
 - [X] Comments
 - [ ] Recursive variables
 - [ ] Environment variables
