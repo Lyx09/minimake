@@ -1,0 +1,4 @@
+my_var=hello
+
+all:
+	echo ${my_var}
