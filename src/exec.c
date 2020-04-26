@@ -59,6 +59,7 @@ int exec_target(char *target, struct vector *targets, struct vector *vars)
             // Logging
             char *command = vector_get(cmds, j);
             command = var_substitution(command, vars);
+            vector_replace(cmds, j, command);
             if (command[0] != '@')
             {
                 printf("%s\n", command);

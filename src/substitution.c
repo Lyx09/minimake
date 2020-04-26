@@ -73,7 +73,7 @@ char *expand_var(char *line, struct subst subst, const char *value, int *start)
     int new_rp_idx = subst.index + strlen(value);
     line = realloc(line, new_rp_idx + rp_len);
     // Don't forget the null byte
-    memmove(line + new_rp_idx, line + rp_idx, rp_len + 1);
+    memmove(line + new_rp_idx, line + rp_idx, rp_len);
     memmove(line + subst.index, value, strlen(value));
     *start = new_rp_idx;
 

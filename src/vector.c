@@ -58,6 +58,15 @@ vtype vector_get(struct vector *v, size_t pos)
     return v->arr[pos];
 }
 
+void vector_replace(struct vector *v, size_t pos, vtype elt)
+{
+    if (v->size <= 0)
+        return;
+    if (pos > v->size)
+        pos = v->size - 1;
+    v->arr[pos] = elt;
+}
+
 vtype vector_peek_head(struct vector *v)
 {
     return vector_get(v, 0);
@@ -110,3 +119,4 @@ void vector_reverse(struct vector *v)
         j--;
     }
 }
+
