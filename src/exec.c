@@ -12,6 +12,7 @@
 
 #include "parser.h"
 #include "vector.h"
+#include "substitution.h"
 
 extern char *program_invocation_short_name;
 extern char **environ;
@@ -54,6 +55,7 @@ int exec_target(char *target, struct vector *targets, struct vector *vars)
         {
             // Logging
             char *command = vector_get(cmds, j);
+            command = var_substitution(command, vars);
             if (command[0] != '@')
             {
                 printf("%s\n", command);
@@ -64,11 +66,9 @@ int exec_target(char *target, struct vector *targets, struct vector *vars)
             int pid = fork();
             if (pid == 0)
             {
-
                 char *cmd_argv[] = {"/bin/sh", "-c", command, NULL};
                 execve(cmd_argv[0], cmd_argv, environ);
                 // An error occured if this line is reached
-
             }
             else
             {

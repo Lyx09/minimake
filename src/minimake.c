@@ -22,6 +22,7 @@ void free_vars(struct vector *vars)
     {
         struct var *v = vector_get(vars, i);
         free(v->line);
+        free(v->env);
         free(v);
     }
     vector_destroy(vars);

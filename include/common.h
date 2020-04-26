@@ -11,7 +11,7 @@
 
 #include "parser.h"
 
-void load_var(const struct var *v);
+char *load_var(const struct var *v);
 
 int chr_in_str(const char *s, const char c);
 

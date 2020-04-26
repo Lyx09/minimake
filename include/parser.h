@@ -23,6 +23,7 @@ struct target
 struct var
 {
     char *line;                 // malloc'd by getline
+    char *env;                  // string given to putenv(3)
     char *name;                 // points to line
     char *value;                // points to line
 };

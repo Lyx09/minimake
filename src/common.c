@@ -7,18 +7,16 @@
 #include "common.h"
 
 // Wrapper on putenv. Load a variable v into the env
-void load_var(const struct var *v)
+char *load_var(const struct var *v)
 {
     char* var_text = malloc(strlen(v->name) + strlen(v->value) + 4);
     strcpy(var_text, v->name);
-    strcat(var_text, "=\"");
+    strcat(var_text, "=");
     strcat(var_text, v->value);
-    strcat(var_text, "\"");
 
     putenv(var_text);
 
-    free(var_text);
-    return;
+    return var_text;
 }
 
 

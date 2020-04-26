@@ -59,9 +59,8 @@ int parse_var_def(struct vector *vars, char *line)
         return -1;
     }
 
-    // Put the car into the env
-    load_var(v);
-    // NOTE: I don't seem to need vars anymore I should probably free it here ?
+    // Put the var into the env
+    v->env = load_var(v);
 
     return 1;
 }
