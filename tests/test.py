@@ -47,7 +47,7 @@ def run_test(minimake, test):
     # TODO: Parse test (For env variables, etc...)
     t = open(test, 'r')
 
-    mk = subprocess.run(['make', '-f', test], capture_output=True)
+    mk = subprocess.run(['make', '--no-print-directory', '-f', test], capture_output=True)
     mnk = subprocess.run([minimake, '-f', test], capture_output=True)
 
     # TODO: Do some cleaning ?

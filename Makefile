@@ -10,9 +10,8 @@ minimake: ${SRC}
 fsanitize: ${SRC}
 	gcc -Wall -Werror -Wextra -pedantic -std=c99 $^ -o minimake -I include/ -g -fsanitize=address
 
-
 check: minimake
-	./tests/test.py minimake
+	tests/test.py minimake
 
 clean:
 	rm -f ${OBJ} minimake
