@@ -125,7 +125,7 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
 
     char *deps_str = split_line(line, ':');
     if (!deps_str)
-        return 0;
+        return -1;
 
     trim(line, " \t");
     trim(deps_str, " \t");
@@ -133,7 +133,7 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
     // TODO: Only take the first token "   a b:" -> "a"
     t->name = line;
     if (!is_valid_token(t->name, " \t:#="))
-        return 0;
+        return -1;
 
 
     // DEPENDENCIES
