@@ -9,6 +9,10 @@
 
 #define COMMENT_CHAR '#'
 
+#include "parser.h"
+
+void load_var(const struct var *v);
+
 int chr_in_str(const char *s, const char c);
 
 void trim(char *s, const char *trim_chars);

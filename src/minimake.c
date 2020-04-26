@@ -46,32 +46,13 @@ void free_targets(struct vector *targets)
     return;
 }
 
+
 void free_and_exit(struct vector *targets, struct vector *vars, int rc)
 {
     free_vars(vars);
     free_targets(targets);
     exit(rc);
 
-    return;
-}
-
-
-void load_vars(struct vector *vars)
-{
-    for (size_t i = 0; i < vars->size; i++)
-    {
-        struct var *v = vector_get(vars, i);
-        char* var_text = malloc(strlen(v->name) + strlen(v->value) + 4);
-        strcpy(var_text, v->name);
-        strcat(var_text, "=\"");
-        strcat(var_text, v->value);
-        strcat(var_text, "\"");
-
-        putenv(var_text);
-
-        free(var_text);
-    }
-    // NOTE: I don't seem to need vars anymore I should probably free it here ?
     return;
 }
 
@@ -114,9 +95,6 @@ int main(int argc, char *argv[]) //, char *envp[])
     // PARSING
     if (parse(filename, targets, vars) == -1)
         free_and_exit(targets, vars, RC_ERROR);
-
-    // LOAD VARIABLE INTO ENV
-    load_vars(vars);
 
     // PRETTY PRINT
     if (opts.flags & FLAG_PRETTY_PRINT)

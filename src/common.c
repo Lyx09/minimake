@@ -1,7 +1,26 @@
+#define _DEFAULT_SOURCE // To use putenv
+
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "common.h"
+
+// Wrapper on putenv. Load a variable v into the env
+void load_var(const struct var *v)
+{
+    char* var_text = malloc(strlen(v->name) + strlen(v->value) + 4);
+    strcpy(var_text, v->name);
+    strcat(var_text, "=\"");
+    strcat(var_text, v->value);
+    strcat(var_text, "\"");
+
+    putenv(var_text);
+
+    free(var_text);
+    return;
+}
+
 
 // Simple wrapper
 int chr_in_str(const char *s, const char c)
