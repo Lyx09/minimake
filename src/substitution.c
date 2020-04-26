@@ -127,7 +127,11 @@ char *concat_deps(struct vector *deps)
     char *cat = calloc(total_size + deps->size, sizeof(char));
 
     for (size_t i = 0; i < deps->size; i++)
+    {
         strcat(cat, vector_get(deps, i));
+        if (i != deps->size - 1)
+            strcat(cat, " ");
+    }
 
     return cat;
 }
