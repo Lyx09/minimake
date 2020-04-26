@@ -26,6 +26,8 @@ void trim(char *s, const char *trim_chars)
 // checks if any character in exclude is in token
 int is_valid_token(char *token, const char *exclude)
 {
+    if (! token[0])
+        return FALSE;
     for (; *token; token++)
         if (chr_in_str(exclude, *token))
                 return FALSE;
