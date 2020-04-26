@@ -22,19 +22,19 @@ def compare_result(result):
     mk = result[0]
     mnk = result[1]
 
-    if mk.returncode != mnk.returncode:
+    if mk.returncode and mnk.returncode:
         print(f'    ↳ {color.red}Return code does not match.')
         print(f'    {color.reset}Expected {color.green}{mk.returncode}')
         print(f'    {color.reset}But got {color.red}{mnk.returncode}{color.reset}')
         return
 
-    if mk.stdout != mnk.stdout:
+    if len(mk.stdout) > 0 == len(mnk.stdout) > 0:
         print(f'    ↳ {color.red}Stdout does not match.{color.reset}')
         print(f'    Expected {color.green}{mk.stdout}{color.reset}')
         print(f'    But got {color.red}{mnk.stdout}{color.reset}')
         return
 
-    if mk.stderr != mnk.stderr:
+    if len(mk.stderr) > 0 == len(mnk.stderr) > 0:
         print(f'    ↳ {color.red}Stderr does not match.')
         print(f'    Expected {color.green}{mk.stderr}{color.reset}')
         print(f'    But got {color.red}{mnk.stderr}{color.reset}')
@@ -84,8 +84,8 @@ def main():
         result = run_test(minimake, test)
 
         if (result[0].returncode != result[1].returncode or
-                result[0].stdout != result[1].stdout or
-                result[0].stderr != result[1].stderr):
+                (len(result[0].stdout) > 0 == len(result[1].stdout) > 0) or
+                (len(result[0].stderr) > 0 == len(result[1].stderr) > 0)):
             failed += 1
             print(f'[{color.red}✗{color.reset}] ', end='')
         else :
