@@ -114,12 +114,12 @@ int main(int argc, char *argv[])
         // TODO: Skip pattern targets "%"
 
         struct target *target = vector_peek_head(targets);
-        if (exec_target(target->name, targets, vars) < 0)
+        if (exec_target(target->name, targets) < 0)
             free_and_exit(targets, vars, RC_ERROR);
     }
     else
         for (; opts.nonopts < argc; opts.nonopts++)
-            if (exec_target(argv[opts.nonopts], targets, vars) < 0)
+            if (exec_target(argv[opts.nonopts], targets) < 0)
                 free_and_exit(targets, vars, RC_ERROR);
 
     free_and_exit(targets, vars, RC_SUCCESS);

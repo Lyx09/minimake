@@ -18,7 +18,7 @@ extern char *program_invocation_short_name;
 extern char **environ;
 
 // return -1 if target was not found, -2 if an error occured, 1 otherwise
-int exec_target(char *target, struct vector *targets, struct vector *vars)
+int exec_target(char *target, struct vector *targets)
 {
     // TODO: Handle target duplication ie.
     // mnk will never build the same target twice during the same invocation
@@ -48,7 +48,7 @@ int exec_target(char *target, struct vector *targets, struct vector *vars)
         // Recursivity yay!
         for (size_t j = 0; j < deps->size; j++)
         {
-            if (exec_target(vector_get(deps, j), targets, vars) < 0)
+            if (exec_target(vector_get(deps, j), targets) < 0)
                 return -1;
         }
 
@@ -58,7 +58,7 @@ int exec_target(char *target, struct vector *targets, struct vector *vars)
         {
             // Logging
             char *command = vector_get(cmds, j);
-            command = var_substitution(command, vars);
+            command = var_substitution(command);
             vector_replace(cmds, j, command);
             if (command[0] != '@')
             {

@@ -176,7 +176,7 @@ int parse(const char *filename, struct vector *targets, struct vector *vars)
         rm_comment(line);
         rm_trailing_nl(line);
 
-        line = var_substitution(line, vars);
+        line = var_substitution(line);
         if (!line) // Error while parsing var
         {
             free(line);

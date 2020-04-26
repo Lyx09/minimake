@@ -4,6 +4,6 @@
 #include "vector.h"
 #include "parser.h"
 
-int exec_target(char *target, struct vector *targets, struct vector *vars);
+int exec_target(char *target, struct vector *targets);
 
 #endif /* ! EXEC_H */

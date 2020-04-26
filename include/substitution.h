@@ -12,7 +12,7 @@ struct subst
     int name_len; // Length of the var name
 };
 
-char *var_substitution(char *line, struct vector *vars);
+char *var_substitution(char *line);
 
 char *spec_var_substitution(char *line, struct target *t);
 
