@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -17,6 +18,17 @@
 
 extern char *program_invocation_short_name;
 extern char **environ;
+
+int deps_older_than_target(struct target *t)
+{
+    struct vector *deps = t->dependencies;
+    for (size_t i = 0; i < deps->size; i++)
+    {
+        //FIXME
+    }
+    return TRUE;
+}
+
 
 // return -1 if target was not found, -2 if an error occured, 1 otherwise
 int exec_target(char *target, struct vector *targets)
@@ -43,10 +55,11 @@ int exec_target(char *target, struct vector *targets)
 
     }
 
-    // Target already built
-    if (! access(t->name, F_OK) || t->ran_once)
+    // Target already up to date
+    if (t->ran_once || (! access(t->name, F_OK) && deps_older_than_target(t)))
     {
-        printf("%s: '%s' is up to date.\n", "minimake", target);
+        printf("%s: '%s' is up to date.\n", program_invocation_short_name,
+                target);
         return 1;
     }
 
