@@ -58,7 +58,7 @@ void free_and_exit(struct vector *targets, struct vector *vars, int rc)
 }
 
 
-int main(int argc, char *argv[]) //, char *envp[])
+int main(int argc, char *argv[])
 {
     struct options opts = opt_parse(argc, argv);
 
