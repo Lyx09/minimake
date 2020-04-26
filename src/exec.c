@@ -47,7 +47,10 @@ int exec_target(char *target, struct vector *targets, struct vector *vars)
 
         // Recursivity yay!
         for (size_t j = 0; j < deps->size; j++)
-            exec_target(vector_get(deps, j), targets, vars);
+        {
+            if (exec_target(vector_get(deps, j), targets, vars) < 0)
+                return -1;
+        }
 
         // Execute commands
         struct vector *cmds = t->commands;

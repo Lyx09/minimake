@@ -71,22 +71,19 @@ int main(int argc, char *argv[]) //, char *envp[])
         strcpy(filename, "makefile");
     else if(!strlen(filename) && !access("Makefile", F_OK))
         strcpy(filename, "Makefile");
+    else if (opts.nonopts < argc)
+    {
+        fprintf(stderr,
+                "%s: *** No rule to make target '%s'.  Stop.\n",
+                program_invocation_short_name, argv[opts.nonopts]);
+        exit(RC_ERROR);
+    }
     else
     {
-        if (opts.nonopts < argc)
-        {
-            fprintf(stderr,
-                    "%s: *** No rule to make target '%s'.  Stop.\n",
-                    program_invocation_short_name, argv[opts.nonopts]);
-            exit(RC_ERROR);
-        }
-        else
-        {
-            fprintf(stderr,
-                    "%s: *** No targets specified and no makefile found.  "
-                    "Stop.\n", program_invocation_short_name);
-            exit(RC_ERROR);
-        }
+        fprintf(stderr,
+                "%s: *** No targets specified and no makefile found.  "
+                "Stop.\n", program_invocation_short_name);
+        exit(RC_ERROR);
     }
 
 
