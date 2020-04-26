@@ -8,7 +8,7 @@
 - [X] Executed command log
 - [X] Build scheduling
     - [X] A basic algorithm
-    - [ ] Target deduplication
+    - [X] Target deduplication
     - [ ] Up to date targets
 
 # Additional features
