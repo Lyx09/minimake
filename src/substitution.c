@@ -98,7 +98,7 @@ char *var_substitution(char *line)
     struct subst subst;
     int ret = 0;
     int start = 0;
-    for (; (ret = locate_var(line, &subst, &start)) > 0; start++)
+    while ((ret = locate_var(line, &subst, &start)) > 0)
     {
         char *value;
         if (subst.name[0] == '$' && subst.name_len == 1)
@@ -139,7 +139,7 @@ char *spec_var_substitution(char *line, struct target *t)
 {
     struct subst subst;
     int start = 0;
-    for (; locate_var(line, &subst, &start) > 0; start++)
+    while (locate_var(line, &subst, &start) > 0)
     {
         if (subst.name_len != 1)
             continue;
