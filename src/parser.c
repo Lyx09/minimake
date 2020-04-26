@@ -42,7 +42,8 @@ int parse_var_def(struct vector *vars, char *line)
 
     char *value = split_line(line, '=');
     if (!value)
-        return 0;
+        return -1;
+
 
     trim(line, " \t");
     // Remove leading whitespace but not trailing ones
@@ -52,7 +53,11 @@ int parse_var_def(struct vector *vars, char *line)
     v->value = value;
 
     if (! is_valid_token(v->name, " \t:#="))
-        return 0;
+    {
+        fprintf(stderr, "%s: *** empty variable name.  Stop.\n",
+                program_invocation_short_name);
+        return -1;
+    }
 
     return 1;
 }
@@ -100,7 +105,14 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
             line_nb++)
     {
         rm_trailing_nl(l);
+
         l = spec_var_substitution(l, t);
+        if (!l)
+        {
+            free(l);
+            return -1;
+        }
+
 
         if (line_type(l) == LINE_EMPTY)
         {
@@ -155,9 +167,13 @@ int parse(const char *filename, struct vector *targets, struct vector *vars)
         // multiline should be handled here
         rm_comment(line);
         rm_trailing_nl(line);
+
         line = var_substitution(line, vars);
         if (!line) // Error while parsing var
+        {
+            free(line);
             return -1;
+        }
 
         switch (line_type(line))
         {
