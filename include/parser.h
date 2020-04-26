@@ -18,6 +18,7 @@ struct target
     char *name;                 // points to line
     struct vector *dependencies; // vec of char *pointing to line
     struct vector *commands;     // vec of char *malloc'd by getline
+    int ran_once;               // For exec: has the target already been run ?
 };
 
 struct var

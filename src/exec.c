@@ -11,6 +11,7 @@
 #include "exec.h"
 
 #include "parser.h"
+#include "common.h"
 #include "vector.h"
 #include "substitution.h"
 
@@ -42,16 +43,16 @@ int exec_target(char *target, struct vector *targets)
 
     }
 
-    // Handle dependencies
-
-    // TODO: Fix circular dependencies
-
     // Target already built
-    if (! access(t->name, F_OK))
+    if (! access(t->name, F_OK) || t->ran_once)
     {
         printf("%s: '%s' is up to date.\n", "minimake", target);
         return 1;
     }
+
+    // Handle dependencies
+
+    // TODO: Fix circular dependencies
 
 
     // Recursivity yay!
@@ -98,6 +99,7 @@ int exec_target(char *target, struct vector *targets)
         }
     }
 
+    t->ran_once = TRUE;
     return 1;
 
 }

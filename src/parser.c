@@ -121,6 +121,7 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
     t->dependencies = deps;
     t->commands = cmds;
     t->line = line;
+    t->ran_once = FALSE;
 
     char *deps_str = split_line(line, ':');
     if (!deps_str)
