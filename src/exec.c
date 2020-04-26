@@ -81,7 +81,7 @@ int exec_target(char *target, struct vector *targets)
                 if (WEXITSTATUS(wstatus) != 0)
                 {
                     // This message is not exactly as the make one
-                    fprintf(stderr, "%s: *** Error return code was not 0",
+                    fprintf(stderr, "%s: *** Error return code was not 0\n",
                             program_invocation_short_name);
                     return -2;
                 }
