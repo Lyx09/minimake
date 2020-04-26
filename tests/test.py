@@ -22,7 +22,7 @@ def compare_result(result):
     mk = result[0]
     mnk = result[1]
 
-    if mk.returncode and mnk.returncode:
+    if mk.returncode != mnk.returncode:
         print(f'    ↳ {color.red}Return code does not match.')
         print(f'    {color.reset}Expected {color.green}{mk.returncode}')
         print(f'    {color.reset}But got {color.red}{mnk.returncode}{color.reset}')
