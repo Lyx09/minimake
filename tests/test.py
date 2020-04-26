@@ -21,13 +21,11 @@ class color:
 def compare_result(result):
     mk = result[0]
     mnk = result[1]
-    if mk == mnk:
-        return
 
     if mk.returncode != mnk.returncode:
-        print(f'    ↳ {color.red}Return code does not match.{color.reset}')
-        print(f'    Expected {color.green}{mk.returncode}{color.reset}')
-        print(f'    But got {color.red}{mnk.returncode}{color.reset}')
+        print(f'    ↳ {color.red}Return code does not match.')
+        print(f'    {color.reset}Expected {color.green}{mk.returncode}')
+        print(f'    {color.reset}But got {color.red}{mnk.returncode}{color.reset}')
         return
 
     if mk.stdout != mnk.stdout:
@@ -41,6 +39,8 @@ def compare_result(result):
         print(f'    Expected {color.green}{mk.stderr}{color.reset}')
         print(f'    But got {color.red}{mnk.stderr}{color.reset}')
         return
+
+    return
 
 
 def run_test(minimake, test):
@@ -83,7 +83,9 @@ def main():
         current_test += 1
         result = run_test(minimake, test)
 
-        if result[0] != result[1]:
+        if (result[0].returncode != result[1].returncode or
+                result[0].stdout != result[1].stdout or
+                result[0].stderr != result[1].stderr):
             failed += 1
             print(f'[{color.red}✗{color.reset}] ', end='')
         else :
