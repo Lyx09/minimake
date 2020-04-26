@@ -65,41 +65,8 @@ int parse_var_def(struct vector *vars, char *line)
     return 1;
 }
 
-// nb of cmds if everything parsed ok -1 otherwise
-int parse_target_def(struct vector *targets, char *line, FILE *makefile)
+int parse_command(struct vector *cmds, struct target *t, FILE *makefile)
 {
-    struct target *t = malloc(sizeof(struct target));
-    vector_append(targets, t);
-    struct vector *deps = vector_init(10);
-    struct vector *cmds = vector_init(10);
-    t->dependencies = deps;
-    t->commands = cmds;
-    t->line = line;
-
-    char *deps_str = split_line(line, ':');
-    if (!deps_str)
-        return 0;
-
-    trim(line, " \t");
-    trim(deps_str, " \t");
-
-    // TODO: Only take the first token "   a b:" -> "a"
-    t->name = line;
-    if (!is_valid_token(t->name, " \t:#="))
-        return 0;
-
-
-    // DEPENDENCIES
-    char *dep;
-    for (;; deps_str = NULL)
-    {
-        dep = strtok(deps_str, " \t");
-        if (dep == NULL)
-            break;
-        vector_append(deps, dep);
-    }
-
-    // COMMANDS
     char *l = NULL;
     size_t len = 0;
     int line_nb = 0;
@@ -142,6 +109,44 @@ int parse_target_def(struct vector *targets, char *line, FILE *makefile)
     free(l); // Don't forget this one !
 
     return line_nb;
+}
+
+// nb of cmds if everything parsed ok -1 otherwise
+int parse_target_def(struct vector *targets, char *line, FILE *makefile)
+{
+    struct target *t = malloc(sizeof(struct target));
+    vector_append(targets, t);
+    struct vector *deps = vector_init(10);
+    struct vector *cmds = vector_init(10);
+    t->dependencies = deps;
+    t->commands = cmds;
+    t->line = line;
+
+    char *deps_str = split_line(line, ':');
+    if (!deps_str)
+        return 0;
+
+    trim(line, " \t");
+    trim(deps_str, " \t");
+
+    // TODO: Only take the first token "   a b:" -> "a"
+    t->name = line;
+    if (!is_valid_token(t->name, " \t:#="))
+        return 0;
+
+
+    // DEPENDENCIES
+    char *dep;
+    for (;; deps_str = NULL)
+    {
+        dep = strtok(deps_str, " \t");
+        if (dep == NULL)
+            break;
+        vector_append(deps, dep);
+    }
+
+    // COMMANDS
+    return parse_command(cmds, t, makefile);
 }
 
 // Returns 1 if everything went right -1 otherwise
