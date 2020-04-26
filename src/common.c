@@ -77,7 +77,7 @@ void rm_comment(char *line)
 void rm_trailing_nl(char *line)
 {
     int len = strlen(line);
-    if (line[len - 1] == '\n')
+    if (len > 0 && line[len - 1] == '\n')
         line[len - 1] = '\0';
     return;
 }
