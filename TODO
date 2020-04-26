@@ -2,12 +2,12 @@
 - [X] Command-line options
 - [X] Rule parsing
 - [X] Pretty-printing
-- [ ] Variables
+- [X] Variables
 - [X] Target selection
 - [X] Command execution
 - [X] Executed command log
-- [ ] Build scheduling
-    - [ ] A basic algorithm
+- [X] Build scheduling
+    - [X] A basic algorithm
     - [ ] Target deduplication
     - [ ] Up to date targets
 
@@ -15,10 +15,10 @@
 - [X] Makefile selection
 - [X] Self building project
 - [X] Comments
-- [ ] Recursive variables
+- [X] Recursive variables
 - [X] Environment variables
 - [ ] Pattern rules
-- [ ] Special variables
+- [X] Special variables
 - [ ] Phony targets
 
 # Other
